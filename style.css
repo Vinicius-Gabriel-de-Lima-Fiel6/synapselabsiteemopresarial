@@ -127,7 +127,17 @@ h1, h2, h3, h4, .logo-main, .nav-btn-link, .btn { font-family: var(--font-head);
 .pulse-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
 @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } 100% { opacity: 1; transform: scale(1); } }
 
-.hero-title { font-size: 1rem; line-height: 1.2;}
+/* AJUSTE ESPECÍFICO DO HERO TITLE */
+.hero-title { 
+    font-size: 4.5rem; 
+    line-height: 1.25; 
+    margin-bottom: 25px; 
+    position: relative; 
+    z-index: 10; 
+    background: transparent !important; 
+    display: block;
+}
+
 .hero-description { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin-bottom: 45px; }
 
 .hero-actions { display: flex; gap: 20px; }
@@ -277,7 +287,7 @@ footer { padding: 100px 0 50px; border-top: 1px solid var(--border); }
 /* MOBILE RESPONSIVE */
 @media (max-width: 968px) {
     .hero-wrapper, .grid-2, .grid-2-alt { grid-template-columns: 1fr; text-align: center; gap: 60px; }
-    .hero-title { font-size: 1rem;line-height: 1.3; }
+    .hero-title { font-size: 2.8rem; line-height: 1.3; }
     .hero-actions, .hero-stats { justify-content: center; }
     .hero-visual { order: -1; }
     .nav-links { display: none; }
