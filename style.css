@@ -40,7 +40,7 @@ h1, h2, h3, h4, .logo-main, .nav-btn-link, .btn { font-family: var(--font-head);
 .text-gradient {
     background: linear-gradient(90deg, var(--primary) 0%, #fff 100%);
     -webkit-background-clip: text;
-    -webkit-fill-color: transparent;
+    -webkit-text-fill-color: transparent; /* Corrigido de -webkit-fill-color */
     color: var(--primary); /* Fallback */
 }
 .highlight { color: var(--primary); }
@@ -93,9 +93,10 @@ h1, h2, h3, h4, .logo-main, .nav-btn-link, .btn { font-family: var(--font-head);
 }
 .btn-contact-nav:hover { box-shadow: 0 0 20px var(--primary-glow); transform: translateY(-2px); }
 
-/* HERO SECTION */
+/* HERO SECTION - Ajustado para caber o conteúdo */
 .hero-section {
-    height: 100vh;
+    min-height: 100vh;
+    padding-top: 100px;
     display: flex;
     align-items: center;
     position: relative;
@@ -127,17 +128,15 @@ h1, h2, h3, h4, .logo-main, .nav-btn-link, .btn { font-family: var(--font-head);
 .pulse-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse 2s infinite; }
 @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } 100% { opacity: 1; transform: scale(1); } }
 
-/* AJUSTE ESPECÍFICO DO HERO TITLE */
+/* HERO TITLE - Ajuste fino de tamanho */
 .hero-title { 
-    font-size: 4.5rem; 
-    line-height: 1.25; 
+    font-size: clamp(2.5rem, 5.5vw, 4rem); 
+    line-height: 1.15; 
     margin-bottom: 25px; 
     position: relative; 
     z-index: 10; 
-    background: transparent !important; 
-    display: block;
+    background: none; 
 }
-
 .hero-description { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin-bottom: 45px; }
 
 .hero-actions { display: flex; gap: 20px; }
