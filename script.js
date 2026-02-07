@@ -1,62 +1,87 @@
+/**
+ * SYNAPSELAB - Script de Interatividade
+ * Desenvolvido para máxima performance sem bibliotecas externas.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- MENU MOBILE ---
-    const mobileMenuBtn = document.getElementById('mobile-menu');
+    // 1. MENU MOBILE TOGGLE
+    const mobileMenu = document.getElementById('mobile-menu');
     const navLinks = document.querySelector('.nav-links');
 
-    if(mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            
-            // Animação simples do ícone sanduíche
-            const bars = document.querySelectorAll('.bar');
-            bars.forEach(bar => bar.classList.toggle('active-bar'));
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            // Estilização rápida via JS para o menu flutuante mobile
+            if(navLinks.style.display === 'flex') {
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '70px';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.background = '#050708';
+                navLinks.style.padding = '20px';
+                navLinks.style.borderBottom = '1px solid #00FF95';
+            }
         });
     }
 
-    // Fechar menu ao clicar em um link (UX)
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
+    // 2. LÓGICA DO MODAL (POP-UP CONTATO)
+    const modal = document.getElementById('contactModal');
+    const openModalBtns = document.querySelectorAll('.open-modal-btn');
+    const closeModal = document.querySelector('.close-modal');
+
+    // Abre o modal em qualquer botão de CTA
+    openModalBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Trava o scroll
         });
     });
 
-    // --- ANIMAÇÃO SCROLL REVEAL (INTERSECTION OBSERVER) ---
-    // Detecta quando elementos com classe .fade-in entram na tela
+    // Fecha ao clicar no X
+    if (closeModal) {
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    }
+
+    // Fecha ao clicar fora do conteúdo
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // 3. ANIMAÇÃO DE REVELAÇÃO AO ROLAR (SCROLL REVEAL)
     const observerOptions = {
-        threshold: 0.15 // Dispara quando 15% do elemento estiver visível
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
     };
 
-    const observer = new IntersectionObserver((entries, observer) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if(entry.isIntersecting) {
+            if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // Para de observar após animar
             }
         });
     }, observerOptions);
 
-    const fadeElements = document.querySelectorAll('.fade-in');
-    fadeElements.forEach(el => observer.observe(el));
+    const scrollElements = document.querySelectorAll('.fade-in');
+    scrollElements.forEach(el => observer.observe(el));
 
-    // --- SMOOTH SCROLL PARA ANCORAS (Compatibilidade extra) ---
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                // Ajuste para o header fixo
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            }
-        });
+    // 4. HEADER DINÂMICO (MUDA COR AO ROLAR)
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.style.background = 'rgba(2, 3, 4, 0.95)';
+            header.style.padding = '10px 0';
+        } else {
+            header.style.background = 'rgba(5, 7, 8, 0.85)';
+            header.style.padding = '15px 0';
+        }
     });
 });
